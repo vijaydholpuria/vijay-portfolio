@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="description" content="Vijay Kumar Dholpuria's Portfolio - Java & Web Developer">
+    <meta name="keywords" content="Vijay Kumar, Portfolio, Web Developer, Java Developer, Resume">
+    <meta name="author" content="Vijay Kumar Dholpuria">
+    <meta property="og:title" content="Vijay Kumar | Web Developer">
+    <meta property="og:description" content="Building modern, animated and interactive web experiences.">
+    <meta property="og:image" content="profile.jpg">
+    <title>Vijay Kumar | Web Developer</title>
+    <meta name="description" content="Building modern, animated and interactive web experiences.">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="portfolioicon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r121/three.min.js"></script>
+    <javascript src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.6.1/gsap.min.js"></javascript>
+</head>
+
+
+<body>
+
+    <!-- HAMBURGER BUTTON -->
+    <div class="hamburger" id="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+
+    <!-- SLIDE SIDEBAR NAV -->
+    <div class="slide-nav" id="slideNav">
+        <a href="#about">About</a>
+        <a href="#skills">Skills</a>
+        <a href="#projects">Projects</a>
+        <a href="#contact">Contact</a>
+    </div>
+
+
+    <div class="layout">
+
+        <!-- LEFT PROFILE CARD -->
+        <aside class="profile-wrapper">
+            <div class="profile-card">
+                <img src="profile.jpg" class="profile-pic" id="profilePic">
+                <h1>Vijay Kumar Dholpuria</h1>
+                <h2>Java & Web Developer</h2>
+                <p>Building modern,Websites, currently pursuing a B.Tech in Electrical And Computer Engineering.</p>
+                <a href="./resume.pdf" target="_blank" class="btn">View Resume</a>
+
+            </div>
+        </aside>
+
+        <!-- RIGHT CONTENT -->
+        <main class="content">
+
+            <section id="about" class="reveal">
+                <h3>About</h3>
+                <p>
+                    I am a Computer Engineering student passionate about building
+                    interactive, animated and scalable web applications using
+                    Java and modern frontend technologies.
+                </p>
+            </section>
+
+            <section id="skills" class="reveal">
+                <h3>Skills</h3>
+                <div class="grid">
+                    <div class="card">Java</div>
+                    <div class="card">Python</div>
+                    <div class="card">C++</div>
+                    <div class="card">HTML</div>
+                    <div class="card">CSS</div>
+                    <div class="card">JavaScript</div>
+                    <div class="card">MySQL</div>
+                </div>
+            </section>
+
+            <section id="projects" class="reveal">
+                <h3>Projects</h3>
+                <div class="project">
+                    <h4>Student Management System</h4>
+                    <p>Java + MySQL CRUD based application.</p>
+                </div>
+                <div class="project">
+                    <h4>Animated Developer Portfolio</h4>
+                    <p>3D animated portfolio with modern UI.</p>
+                </div>
+            </section>
+
+            <section id="contact" class="reveal">
+                <h3>Contact</h3>
+                <p>Feel free to connect with me on LinkedIn or GitHub!</p>
+                <div class="contact-icons">
+                    <a href="https://www.linkedin.com/in/vijaykumardholpuria" target="_blank" class="icon linkedin">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+
+                    <a href="https://github.com/vijaydholpuria" target="_blank" class="icon github">
+                        <i class="fab fa-github"></i>
+                    </a>
+                </div>
+            </section>
+
+
+        </main>
+
+
+    </div>
+    <footer class="footer">
+        <div class="footer-content">
+            <p>© 2026 Vijay Dholpuria</p>
+            <p>contact : vijay635037@gmail.com </p>
+            <p>Phone : +91 7851894027</p>
+            <p class="footer-sub">Java & Web Developer</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+
+    <div class="image-viewer" id="imageViewer">
+        <span class="close-btn" id="closeImage">&times;</span>
+        <img src="profile.jpg" class="viewer-img">
+    </div>
+</body>
+
+
+</html>
