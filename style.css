@@ -401,3 +401,8 @@ h3 {
 
     background: transparent;
 }
+.linkedin-embed iframe {
+    width: 100%;
+    min-height: 400px;
+    border-radius: 10px;
+}
