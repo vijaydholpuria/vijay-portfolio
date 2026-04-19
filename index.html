@@ -40,6 +40,7 @@
         <a href="#about">About</a>
         <a href="#skills">Skills</a>
         <a href="#projects">Projects</a>
+        <a href="#linkedin">LinkedIn</a>
         <a href="#contact">Contact</a>
     </div>
 
@@ -129,16 +130,39 @@
             </section>
 
             <section id="contact" class="reveal">
-                <h3>Contact</h3>
-                <p>Feel free to connect with me on LinkedIn or GitHub!</p>
-                <div class="contact-icons">
-                    <a href="https://www.linkedin.com/in/vijaykumardholpuria" target="_blank" class="icon linkedin">
-                        <i class="fab fa-linkedin-in"></i>
-                    </a>
+                <h3>Connect With Me</h3>
 
-                    <a href="https://github.com/vijaydholpuria" target="_blank" class="icon github">
-                        <i class="fab fa-github"></i>
-                    </a>
+                <div class="slider-container">
+
+                    <button class="arrow left" onclick="scrollLeftBtn()">❮</button>
+
+                    <div class="slider-track" id="sliderTrack">
+
+                        <div class="slider-card">
+                            <a href="https://www.linkedin.com/in/vijaykumardholpuria" target="_blank"
+                                class="slider-card">
+                                <img src="linkedin.png">
+
+                                <div class="overlay">
+                                    <h4>LinkedIn</h4>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="slider-card">
+                            <a href="https://github.com/vijaydholpuria" target="_blank" class="slider-card">
+                                <img src="git.png">
+
+                                <div class="overlay">
+                                    <h4>GitHub</h4>
+                                </div>
+                            </a>
+                        </div>
+
+                    </div>
+
+                    <button class="arrow right" onclick="scrollRightBtn()">❯</button>
+
                 </div>
             </section>
 

@@ -158,3 +158,20 @@ imageViewer.addEventListener("touchend", () => {
     startY = 0;
     currentY = 0;
 });
+
+
+/*Slider contact form*/
+const track = document.getElementById("sliderTrack");
+
+function scrollLeftBtn() {
+    track.scrollBy({ left: -300, behavior: "smooth" });
+}
+
+function scrollRightBtn() {
+    track.scrollBy({ left: 300, behavior: "smooth" });
+}
+
+/* AUTO SCROLL */
+setInterval(() => {
+    track.scrollBy({ left: 300, behavior: "smooth" });
+}, 4000);
