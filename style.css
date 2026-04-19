@@ -425,3 +425,18 @@ h3 {
 .project-links a:hover {
     background: #ff4d6d;
 }
+.linkedin-mobile {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .linkedin-wrapper {
+        display: none;
+    }
+
+    .linkedin-mobile {
+        display: block;
+        text-align: center;
+        margin-top: 20px;
+    }
+}
