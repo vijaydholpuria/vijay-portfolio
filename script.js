@@ -176,8 +176,6 @@ setInterval(() => {
     track.scrollBy({ left: 300, behavior: "smooth" });
 }, 4000);
 
-const track = document.getElementById("sliderTrack");
-
 let index = 0;
 
 function autoSlide() {
