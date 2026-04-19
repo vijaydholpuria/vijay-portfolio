@@ -440,3 +440,28 @@ h3 {
         margin-top: 20px;
     }
 }
+
+.linkedin-box {
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+    border-radius: 15px;
+    margin-top: 20px;
+}
+
+/* Desktop */
+.linkedin-box iframe {
+    width: 100%;
+    height: 550px;
+    border: none;
+}
+
+/* Mobile fix */
+@media (max-width: 768px) {
+    .linkedin-box iframe {
+        width: 120%;
+        height: 480px;
+        transform: scale(0.85);
+        transform-origin: top left;
+    }
+}
