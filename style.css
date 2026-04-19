@@ -475,30 +475,37 @@ h3 {
     overflow: hidden;
 }
 
+/* TRACK CENTER ALIGN */
 .slider-track {
     display: flex;
     gap: 20px;
     overflow-x: auto;
     scroll-behavior: smooth;
-    padding: 10px 0;
+    padding: 20px;
+    scroll-snap-type: x mandatory;
 }
 
+/* CARD FIX */
+.slider-card {
+    min-width: 80%;   /* 👈 ek card hi dikhe */
+    height: 150px;    /* 👈 slim height */
+    border-radius: 15px;
+    overflow: hidden;
+    flex-shrink: 0;
+    scroll-snap-align: center;
+}
+
+/* MOBILE PERFECT */
+@media (max-width: 768px) {
+    .slider-card {
+        min-width: 85%;
+        height: 140px;
+    }
+}
 .slider-track::-webkit-scrollbar {
     display: none;
 }
 
-/* CARD */
-.slider-card {
-    min-width: 280px;
-    height: 160px;
-    border-radius: 15px;
-    overflow: hidden;
-    position: relative;
-    flex-shrink: 0;
-    text-decoration: none;
-    color: inherit;
-    transition: 0.3s;
-}
 
 /* IMAGE */
 .slider-card img {

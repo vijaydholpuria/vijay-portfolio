@@ -175,3 +175,26 @@ function scrollRightBtn() {
 setInterval(() => {
     track.scrollBy({ left: 300, behavior: "smooth" });
 }, 4000);
+
+const track = document.getElementById("sliderTrack");
+
+let index = 0;
+
+function autoSlide() {
+    const cards = document.querySelectorAll(".slider-card");
+
+    if (!cards.length) return;
+
+    index++;
+
+    if (index >= cards.length) {
+        index = 0;
+    }
+
+    track.scrollTo({
+        left: cards[index].offsetLeft - 20,
+        behavior: "smooth"
+    });
+}
+
+setInterval(autoSlide, 3000);
