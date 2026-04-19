@@ -44,7 +44,7 @@ body {
     padding: 40px;
     border-radius: 25px;
     text-align: center;
-    box-shadow: 0 40px 80px rgba(0,0,0,0.7);
+    box-shadow: 0 40px 80px rgba(0, 0, 0, 0.7);
     transform-style: preserve-3d;
     will-change: transform;
 }
@@ -153,7 +153,7 @@ h3 {
     font-size: 20px;
     text-decoration: none;
     transition: 0.3s ease;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
 }
 
 .icon:hover {
@@ -169,7 +169,7 @@ h3 {
     width: 100%;
     padding: 40px 0;
     background: linear-gradient(145deg, #140609, #2a0b12);
-    border-top: 1px solid rgba(255,255,255,0.08);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .footer-content {
@@ -267,7 +267,7 @@ h3 {
 .slide-nav a {
     text-decoration: none;
     font-size: 20px;
-    color: rgba(255,255,255,0.75);
+    color: rgba(255, 255, 255, 0.75);
     white-space: nowrap;
     transition: 0.3s ease;
 }
@@ -284,7 +284,7 @@ h3 {
 .nav-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.45);
+    background: rgba(0, 0, 0, 0.45);
     backdrop-filter: blur(6px);
     opacity: 0;
     pointer-events: none;
@@ -353,13 +353,14 @@ h3 {
         left: auto;
     }
 }
+
 /* =======================
    IMAGE VIEWER (PROFILE)
    ======================= */
 .image-viewer {
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.75);
+    background: rgba(0, 0, 0, 0.75);
     backdrop-filter: blur(6px);
     display: flex;
     justify-content: center;
@@ -381,7 +382,7 @@ h3 {
     border-radius: 20px;
     transform: scale(0.6);
     transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
-    box-shadow: 0 30px 80px rgba(0,0,0,0.8);
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.8);
 }
 
 .image-viewer.active .viewer-img {
@@ -397,15 +398,18 @@ h3 {
     cursor: pointer;
     user-select: none;
 }
+
 .image-viewer {
 
     background: transparent;
 }
+
 .linkedin-embed iframe {
     width: 100%;
     min-height: 400px;
     border-radius: 10px;
 }
+
 .project-links {
     margin-top: 10px;
 }
@@ -425,6 +429,7 @@ h3 {
 .project-links a:hover {
     background: #ff4d6d;
 }
+
 .linkedin-mobile {
     display: none;
 }
@@ -482,13 +487,14 @@ h3 {
     overflow-x: auto;
     scroll-behavior: smooth;
     padding: 20px;
-    scroll-snap-type: x mandatory;
 }
 
 /* CARD FIX */
 .slider-card {
-    min-width: 80%;   /* 👈 ek card hi dikhe */
-    height: 150px;    /* 👈 slim height */
+    min-width: 80%;
+    /* 👈 ek card hi dikhe */
+    height: 150px;
+    /* 👈 slim height */
     border-radius: 15px;
     overflow: hidden;
     flex-shrink: 0;
@@ -498,10 +504,12 @@ h3 {
 /* MOBILE PERFECT */
 @media (max-width: 768px) {
     .slider-card {
-        min-width: 85%;
+        min-width: 260px;
+        max-width: 260px;
         height: 140px;
     }
 }
+
 .slider-track::-webkit-scrollbar {
     display: none;
 }
@@ -520,7 +528,7 @@ h3 {
     bottom: 0;
     width: 100%;
     padding: 15px;
-    background: linear-gradient(to top, rgba(0,0,0,0.85), transparent);
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.85), transparent);
 }
 
 .overlay h4 {
@@ -538,7 +546,7 @@ h3 {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    background: rgba(0,0,0,0.6);
+    background: rgba(0, 0, 0, 0.6);
     color: white;
     border: none;
     font-size: 25px;
@@ -547,5 +555,10 @@ h3 {
     z-index: 10;
 }
 
-.left { left: 0; }
-.right { right: 0; }
+.left {
+    left: 0;
+}
+
+.right {
+    right: 0;
+}
