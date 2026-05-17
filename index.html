@@ -5,12 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <meta name="description" content="Vijay Kumar Dholpuria's Portfolio - Java & Web Developer">
     <meta name="keywords" content="Vijay Kumar, Portfolio, Web Developer, Java Developer, Resume">
     <meta name="author" content="Vijay Kumar Dholpuria">
     <meta property="og:title" content="Vijay Kumar | Web Developer">
     <meta property="og:description" content="Building modern, animated and interactive web experiences.">
-    <meta property="og:image" content="profile.jpg">
+    <meta property="og:image" content="profile-hero-v2.png">
     <title>Vijay Kumar | Web Developer</title>
     <meta name="description" content="Building modern, animated and interactive web experiences.">
     <link rel="stylesheet" href="style.css">
@@ -19,185 +18,218 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r121/three.min.js"></script>
-    <javascript src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.6.1/gsap.min.js"></javascript>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.6.1/gsap.min.js"></script>
 </head>
-
 
 <body>
 
-    <!-- HAMBURGER BUTTON -->
-    <div class="hamburger" id="hamburger">
-        <span></span>
-        <span></span>
-        <span></span>
-    </div>
+    <!-- HERO LANDING
+         CSS: .hero, .hero-overlay, .hero-content, .scroll-cue
+         JS : .hero parallax + .reveal animation -->
+    <header class="hero" id="home">
+        <div class="hero-overlay"></div>
 
-    <!-- SLIDE SIDEBAR NAV -->
-    <div class="slide-nav" id="slideNav">
-        <a href="#about">About</a>
-        <a href="#skills">Skills</a>
-        <a href="#projects">Projects</a>
-        <a href="#linkedin">LinkedIn</a>
-        <a href="#contact">Contact</a>
-    </div>
-
-
-    <div class="layout">
-
-        <!-- LEFT PROFILE CARD -->
-        <aside class="profile-wrapper">
-            <div class="profile-card">
-                <img src="profile.jpg" class="profile-pic" id="profilePic">
-                <h1>Vijay Kumar Dholpuria</h1>
-                <h2>Java & Web Developer</h2>
-                <p>Building modern,Websites, currently pursuing a B.Tech in Electrical And Computer Engineering.</p>
-                <a href="./resume.pdf" target="_blank" class="btn">View Resume</a>
-                <a href="./cv.pdf" target="_blank" class="btn">View CV</a>
-
+        <!-- DESKTOP NAVIGATION
+             CSS: .top-nav, .brand, .top-links -->
+        <nav class="top-nav">
+            <a href="#home" class="brand">Vijay Kumar Dholpuria<span>.</span></a>
+            <div class="top-links">
+                <a href="#about">About</a>
+                <a href="#skills">Skills</a>
+                <a href="#projects">Projects</a>
+                <a href="#linkedin">LinkedIn</a>
+                <a href="#contact">Contact</a>
             </div>
-        </aside>
+        </nav>
 
-        <!-- RIGHT CONTENT -->
-        <main class="content">
+        <!-- MOBILE HAMBURGER
+             CSS: .hamburger / .hamburger.active
+             JS : #hamburger click toggles #slideNav -->
+        <button class="hamburger" id="hamburger" aria-label="Toggle navigation">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
 
-            <section id="about" class="reveal">
-                <h3>About</h3>
-                <p>
-                    I am a Electrical and Computer Engineering student passionate about building
-                    interactive, animated and scalable web applications using
-                    Java and modern frontend technologies.
-                </p>
-            </section>
+        <!-- MOBILE SLIDE NAV
+             CSS: .slide-nav / .slide-nav.active
+             JS : #slideNav open/close and auto-close on link click -->
+        <div class="slide-nav" id="slideNav">
+            <a href="#home">Home</a>
+            <a href="#about">About</a>
+            <a href="#skills">Skills</a>
+            <a href="#projects">Projects</a>
+            <a href="#linkedin">LinkedIn</a>
+            <a href="#contact">Contact</a>
+        </div>
 
-            <section id="skills" class="reveal">
-                <h3>Skills</h3>
-                <div class="grid">
-                    <div class="card">Java</div>
-                    <div class="card">Python</div>
-                    <div class="card">C++</div>
-                    <div class="card">HTML</div>
-                    <div class="card">CSS</div>
-                    <div class="card">JavaScript</div>
-                    <div class="card">MySQL</div>
+        <!-- HERO TEXT CONTENT
+             CSS: .hero-kicker, .hero-text, .hero-buttons, .btn
+             JS : .reveal class becomes .active on scroll -->
+        <div class="hero-content reveal">
+            <p class="hero-kicker">Java & Web Developer</p>
+            <h1>Building Modern & Interactive Web Experiences</h1>
+            <p class="hero-text">
+                I design and build clean, responsive and animated digital products with a strong focus on performance,
+                usability and polished UI.
+            </p>
+            <div class="hero-buttons">
+                <a href="#about" class="btn btn-primary">Explore My Work</a>
+            </div>
+        </div>
+
+        <!-- SCROLL INDICATOR (links hero -> about section) -->
+        <a href="#about" class="scroll-cue" aria-label="Scroll to details"><span>Scroll</span></a>
+    </header>
+
+    <!-- DETAILS AREA
+         CSS: .details-shell, .layout
+         JS : contains all .reveal sections for scroll animation -->
+    <section class="details-shell">
+        <div class="layout">
+            <!-- PROFILE COLUMN
+                 CSS: .profile-wrapper, .profile-card, .profile-pic
+                 JS : #profilePic opens #imageViewer -->
+            <aside class="profile-wrapper">
+                <div class="profile-card reveal">
+                    <img src="profile-hero-v2.png" class="profile-pic" id="profilePic" alt="Vijay profile photo">
+                    <h1>Vijay Kumar Dholpuria</h1>
+                    <h2>Java & Web Developer</h2>
+                    <p>
+                        Building modern websites, currently pursuing a B.Tech in Electrical and Computer Engineering.
+                    </p>
+                    <a href="./resume.pdf" target="_blank" class="btn btn-primary">View Resume</a>
+                    <a href="./cv.pdf" target="_blank" class="btn btn-outline">View CV</a>
                 </div>
-            </section>
+            </aside>
 
-            <section id="projects" class="reveal">
-                <h3>Projects</h3>
+            <!-- MAIN CONTENT SECTIONS
+                 Each section id is used by nav anchor links
+                 .reveal class is controlled by JS revealOnScroll() -->
+            <main class="content">
+                <section id="about" class="reveal">
+                    <h3>About</h3>
+                    <p>
+                        I am a Computer Engineering student passionate about building interactive, animated and
+                        scalable web applications using Java and modern frontend technologies.
+                    </p>
+                </section>
 
-                <div class="project">
-                    <h4>Event Registration System</h4>
-                    <p>Full-stack web application for managing event registrations.</p>
-                    <div class="project-links">
-                        <a href="https://github.com/vijaydholpuria/Event-Registration" target="_blank">Code</a>
-                        <a href="https://event-registration-giny.onrender.com/" target="_blank">Live</a>
+                <section id="skills" class="reveal">
+                    <h3>Skills</h3>
+                    <div class="grid">
+                        <div class="card">Java</div>
+                        <div class="card">Python</div>
+                        <div class="card">C++</div>
+                        <div class="card">HTML</div>
+                        <div class="card">CSS</div>
+                        <div class="card">JavaScript</div>
+                        <div class="card">MySQL</div>
                     </div>
+                </section>
 
-                </div>
-
-                <div class="project">
-                    <h4>Resume Analyzer Pro</h4>
-                    <p>AI-powered resume analysis and feedback web application.</p>
-                    <p>Built with Java Spring Boot, React, and integrated with OpenAI's GPT-3.5 for intelligent resume
-                        insights.</p>
-
-                    <div class="project-links">
-                        <a href="https://github.com/vijaydholpuria/resume-analyzer-pro" target="_blank">Code</a>
-                        <a href="https://resume-analyzer-pro-kvm3.onrender.com/index.html" target="_blank">Live</a>
+                <section id="projects" class="reveal">
+                    <h3>Projects</h3>
+                    <div class="project">
+                        <h4>Event Registration System</h4>
+                        <p>Full-stack web application for managing event registrations.</p>
+                        <div class="project-actions">
+                            <a href="https://github.com/vijaydholpuria/vijay-portfolio" target="_blank" class="project-link">Code</a>
+                            <a href="https://resume-analyzer-pro-kvm3.onrender.com/index.html" target="_blank" class="project-link live">Live</a>
+                        </div>
                     </div>
-                </div>
-
-                <div class="project">
-                    <h4>Portfolio Website</h4>
-                    <p>Modern animated portfolio using HTML, CSS and JavaScript.</p>
-
-                    <div class="project-links">
-                        <a href="https://github.com/vijaydholpuria/vijay-portfolio" target="_blank">Code</a>
-                        <a href="https://vijaydholpuria.github.io/vijay-portfolio/" target="_blank">Live</a>
+                    <div class="project">
+                        <h4>Resume Analyzer Pro</h4>
+                        <p>AI-powered resume analysis and feedback web application.</p>
+                        <p>Built with Java Spring Boot, React, and integrated with OpenAI's GPT-3.5 for intelligent resume insights.</p>
+                        <div class="project-actions">
+                            <a href="https://github.com/vijaydholpuria/vijay-portfolio" target="_blank" class="project-link">Code</a>
+                            <a href="https://resume-analyzer-pro-kvm3.onrender.com/index.html" target="_blank" class="project-link live">Live</a>
+                        </div>
                     </div>
-                </div>
+                    <div class="project">
+                        <h4>Portfolio Website</h4>
+                        <p>Modern animated portfolio using HTML, CSS and JavaScript.</p>
+                        <div class="project-actions">
+                            <a href="https://github.com/vijaydholpuria/vijay-portfolio" target="_blank" class="project-link">Code</a>
+                            <a href="https://vijaydholpuria.github.io/vijay-portfolio/" target="_blank" class="project-link live">Live</a>
+                        </div>
+                    </div>
+                    <a href="#linkedin" class="project-link linkedin-work">My LinkedIn Work</a>
+                </section>
 
-            </section>
-            <section id="linkedin" class="reveal">
-                <h3>My LinkedIn Work</h3>
+                <section id="linkedin" class="reveal">
+                    <h3>LinkedIn</h3>
+                    <p>Check out my latest LinkedIn posts below:</p>
+                    <div class="project">
+                        <h4>Event Registration System</h4>
+                        <div class="linkedin-embed">
+                            <iframe
+                                src="https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7451314610307104768?collapsed=1"
+                                height="541" width="504" frameborder="0" allowfullscreen title="Embedded post"></iframe>
+                        </div>
 
-                <div class="linkedin-box">
-                    <iframe
-                        src="https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7451314610307104768?collapsed=1"
-                        frameborder="0" allowfullscreen title="LinkedIn Post">
-                    </iframe>
+                        <h4>Resume Analyzer Project</h4>
+                        <div class="linkedin-embed">
+                            <iframe
+                                src="https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7454613275725524993?collapsed=1"
+                                height="507" width="504" frameborder="0" allowfullscreen title="Embedded post"></iframe>
+                        </div>
+                    </div>
+                </section>
 
-                    <br></br>
+                <section id="contact" class="reveal">
+                    <h3>Connect With Me</h3>
 
-                    <iframe
-                        src="https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7454613275725524993?collapsed=1"
-                        frameborder="0" allowfullscreen="" title="Embedded post">
-                    </iframe>
+                    <!-- CONTACT SLIDER
+                         CSS: .slider-container, .slider-track, .slider-card, .arrow
+                         JS : #sliderTrack auto-loop every 3s + scrollLeftBtn/scrollRightBtn -->
+                    <div class="slider-container">
+                        <button class="arrow left" onclick="scrollLeftBtn()">&#10094;</button>
 
-                </div>
-            </section>
-
-            <section id="contact" class="reveal">
-                <h3>Connect With Me</h3>
-
-                <div class="slider-container">
-
-                    <button class="arrow left" onclick="scrollLeftBtn()">❮</button>
-
-                    <div class="slider-track" id="sliderTrack">
-
-                        <div class="slider-card">
-                            <a href="https://www.linkedin.com/in/vijaykumardholpuria" target="_blank"
-                                class="slider-card">
-                                <img src="linkedin.png">
-
+                        <div class="slider-track" id="sliderTrack">
+                            <a href="https://www.linkedin.com/in/vijaykumardholpuria" target="_blank" class="slider-card">
+                                <img src="linkedin.png" alt="LinkedIn">
                                 <div class="overlay">
                                     <h4>LinkedIn</h4>
                                 </div>
                             </a>
-                        </div>
 
-                        <div class="slider-card">
                             <a href="https://github.com/vijaydholpuria" target="_blank" class="slider-card">
-                                <img src="git.png">
-
+                                <img src="git.png" alt="GitHub">
                                 <div class="overlay">
                                     <h4>GitHub</h4>
                                 </div>
                             </a>
                         </div>
 
+                        <button class="arrow right" onclick="scrollRightBtn()">&#10095;</button>
                     </div>
+                </section>
+            </main>
+        </div>
+    </section>
 
-                    <button class="arrow right" onclick="scrollRightBtn()">❯</button>
-
-                </div>
-            </section>
-
-
-        </main>
-
-
-    </div>
     <footer class="footer">
         <div class="footer-content">
-            <p>© 2026 Vijay Dholpuria</p>
-            <p>contact : vijay635037@gmail.com </p>
-            <p>Phone : +91 7851894027</p>
+            <p>&copy; 2026 Vijay Dholpuria</p>
+            <p>Contact: vijay635037@gmail.com</p>
+            <p>Phone: +91 7851894027</p>
             <p class="footer-sub">Java & Web Developer</p>
         </div>
     </footer>
 
-    <script src="script.js"></script>
-
+    <!-- IMAGE VIEWER MODAL
+         CSS: .image-viewer / .image-viewer.active
+         JS : #closeImage click, backdrop click, Esc key close -->
     <div class="image-viewer" id="imageViewer">
         <span class="close-btn" id="closeImage">&times;</span>
-        <img src="profile.jpg" class="viewer-img">
+        <img src="profile-hero-v2.png" class="viewer-img" alt="Profile preview">
     </div>
-</body>
 
+    <script src="script.js"></script>
+</body>
 
 </html>

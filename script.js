@@ -1,42 +1,114 @@
 /* =========================
-   3D CARD LOOP ANIMATION
-   ========================= */
-const card = document.querySelector(".profile-card");
-let angle = 0;
+   3D TOUCH INTERACTION
+   Adds pointer-based tilt to selected blocks.
+========================= */
 let isNavOpen = false;
+/* FILE LINK MAP
+   HTML IDs/classes used here:
+   - #hamburger, #slideNav (mobile nav)
+   - .hero (parallax), .hero-content (tilt)
+   - .reveal (scroll reveal state)
+   - #profilePic, #imageViewer, #closeImage (image modal)
+   - #sliderTrack, .slider-card (contact slider)
+   CSS classes toggled by JS:
+   - .active on .slide-nav / .hamburger / .image-viewer
+   - .active on .reveal for enter animation
+   - CSS custom props for .tilt-target and .hero parallax */
+const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-function animateCard() {
-    if (!card || isNavOpen) {
-        requestAnimationFrame(animateCard);
-        return;
+function add3DTilt(element, options = {}) {
+    if (!element || prefersReducedMotion) return;
+
+    const {
+        maxTilt = 6,
+        scale = 1.01,
+        lift = 8
+    } = options;
+
+    let frameId = null;
+
+    element.classList.add("tilt-target");
+
+    function resetTilt() {
+        element.style.setProperty("--rx", "0deg");
+        element.style.setProperty("--ry", "0deg");
+        element.style.setProperty("--tz", "0px");
+        element.style.setProperty("--scale", "1");
     }
 
-    const isMobile = window.innerWidth < 768;
-    angle += isMobile ? 0.12 : 0.25;
+    function setTilt(clientX, clientY) {
+        const rect = element.getBoundingClientRect();
+        if (!rect.width || !rect.height) return;
 
-    const rotateY = Math.sin(angle * Math.PI / 180) * (isMobile ? 3 : 5);
-    const rotateX = Math.cos(angle * Math.PI / 180) * (isMobile ? 2 : 3);
-    const translateY = Math.sin(angle * Math.PI / 180) * (isMobile ? 3 : 5);
+        const x = (clientX - rect.left) / rect.width;
+        const y = (clientY - rect.top) / rect.height;
 
-    card.style.transform = `
-        rotateY(${rotateY}deg)
-        rotateX(${rotateX}deg)
-        translateY(${translateY}px)
-    `;
+        const rotateY = (x - 0.5) * (maxTilt * 2);
+        const rotateX = (0.5 - y) * (maxTilt * 2);
 
-    requestAnimationFrame(animateCard);
+        element.style.setProperty("--rx", `${rotateX.toFixed(2)}deg`);
+        element.style.setProperty("--ry", `${rotateY.toFixed(2)}deg`);
+        element.style.setProperty("--tz", `${lift}px`);
+        element.style.setProperty("--scale", String(scale));
+    }
+
+    resetTilt();
+
+    element.addEventListener("pointermove", (event) => {
+        if (event.pointerType === "touch") return;
+
+        if (frameId) cancelAnimationFrame(frameId);
+        frameId = requestAnimationFrame(() => setTilt(event.clientX, event.clientY));
+    });
+
+    element.addEventListener("pointerenter", (event) => {
+        if (event.pointerType === "touch") return;
+        setTilt(event.clientX, event.clientY);
+    });
+
+    element.addEventListener("pointerleave", resetTilt);
+    element.addEventListener("pointercancel", resetTilt);
 }
 
-animateCard();
+function init3DTilt() {
+    // Hero text and profile card are primary interactive surfaces.
+    add3DTilt(document.querySelector(".hero-content"), { maxTilt: 4, scale: 1.008, lift: 8 });
+    add3DTilt(document.querySelector(".profile-card"), { maxTilt: 5, scale: 1.008, lift: 8 });
+
+    // Contact cards also get subtle tilt.
+    document.querySelectorAll(".slider-card").forEach((card) => {
+        add3DTilt(card, { maxTilt: 4, scale: 1.006, lift: 6 });
+    });
+}
+
+init3DTilt();
+
+/* =========================
+   HERO PARALLAX
+   Moves hero background image via --hero-shift CSS variable.
+========================= */
+const hero = document.querySelector(".hero");
+
+function updateHeroParallax() {
+    if (!hero || prefersReducedMotion) return;
+    const rect = hero.getBoundingClientRect();
+    const maxShift = 26;
+    const shift = Math.max(-maxShift, Math.min(maxShift, rect.top * -0.08));
+    hero.style.setProperty("--hero-shift", `${shift}px`);
+}
+
+window.addEventListener("scroll", updateHeroParallax, { passive: true });
+updateHeroParallax();
 
 /* =========================
    SCROLL REVEAL
-   ========================= */
+   Activates .reveal sections when they enter viewport.
+========================= */
 const reveals = document.querySelectorAll(".reveal");
 
 function revealOnScroll() {
     const windowHeight = window.innerHeight;
-    reveals.forEach(section => {
+    reveals.forEach((section) => {
         if (section.getBoundingClientRect().top < windowHeight - 120) {
             section.classList.add("active");
         }
@@ -47,11 +119,11 @@ window.addEventListener("scroll", revealOnScroll);
 revealOnScroll();
 
 /* =========================
-   NAVBAR PERFECT LOGIC
-   ========================= */
+   NAVBAR
+   Controls mobile nav open/close states.
+========================= */
 const hamburger = document.getElementById("hamburger");
 const slideNav = document.getElementById("slideNav");
-const layout = document.querySelector(".layout");
 
 function openNav() {
     isNavOpen = true;
@@ -65,42 +137,41 @@ function closeNav() {
     slideNav.classList.remove("active");
 }
 
-/* Hamburger toggle */
-hamburger.addEventListener("click", (e) => {
-    e.stopPropagation(); // important
-    slideNav.classList.contains("active") ? closeNav() : openNav();
-});
+if (hamburger && slideNav) {
+    hamburger.addEventListener("click", (e) => {
+        e.stopPropagation();
+        slideNav.classList.contains("active") ? closeNav() : openNav();
+    });
 
-/* 🔥 MAIN FIX: LANDING PAGE CLICK = CLOSE */
-layout.addEventListener("click", () => {
-    if (isNavOpen) {
+    slideNav.addEventListener("click", (e) => e.stopPropagation());
+
+    document.querySelectorAll(".slide-nav a").forEach((link) => {
+        link.addEventListener("click", closeNav);
+    });
+    
+    document.addEventListener("click", (event) => {
+        const target = event.target;
+        if (!isNavOpen) return;
+        if (slideNav.contains(target) || hamburger.contains(target)) return;
         closeNav();
-    }
-});
+    });
 
-/* Sidebar ke andar click pe close NA ho */
-slideNav.addEventListener("click", (e) => {
-    e.stopPropagation();
-});
+    document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape" && isNavOpen) {
+            closeNav();
+        }
+    });
+}
 
-/* Sidebar link click → close */
-document.querySelectorAll(".slide-nav a").forEach(link => {
-    link.addEventListener("click", closeNav);
-});
 /* =========================
-   PROFILE IMAGE VIEWER
-   ========================= */
-document.addEventListener("DOMContentLoaded", () => {
+   IMAGE VIEWER
+   Profile image modal open/close logic.
+========================= */
+const profilePic = document.getElementById("profilePic");
+const imageViewer = document.getElementById("imageViewer");
+const closeImage = document.getElementById("closeImage");
 
-    const profilePic = document.getElementById("profilePic");
-    const imageViewer = document.getElementById("imageViewer");
-    const closeImage = document.getElementById("closeImage");
-
-    if (!profilePic || !imageViewer || !closeImage) {
-        console.log("Image viewer elements missing");
-        return;
-    }
-
+if (profilePic && imageViewer && closeImage) {
     profilePic.addEventListener("click", () => {
         imageViewer.classList.add("active");
     });
@@ -109,90 +180,154 @@ document.addEventListener("DOMContentLoaded", () => {
         imageViewer.classList.remove("active");
     });
 
-    imageViewer.addEventListener("click", (e) => {
-        if (e.target === imageViewer) {
+    imageViewer.addEventListener("click", () => {
+        imageViewer.classList.remove("active");
+    });
+
+    document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") {
             imageViewer.classList.remove("active");
         }
     });
-});
+}
 
 /* =========================
-   MOBILE SWIPE TO CLOSE
-   ========================= */
-let startY = 0;
-let currentY = 0;
-let isSwiping = false;
-
-const viewerImg = document.querySelector(".viewer-img");
-
-imageViewer.addEventListener("touchstart", (e) => {
-    if (!imageViewer.classList.contains("active")) return;
-
-    startY = e.touches[0].clientY;
-    isSwiping = true;
-});
-
-imageViewer.addEventListener("touchmove", (e) => {
-    if (!isSwiping) return;
-
-    currentY = e.touches[0].clientY;
-    const diffY = currentY - startY;
-
-    if (diffY > 0) {
-        viewerImg.style.transform = `translateY(${diffY}px) scale(${1 - diffY / 600})`;
-    }
-});
-
-imageViewer.addEventListener("touchend", () => {
-    if (!isSwiping) return;
-
-    const diffY = currentY - startY;
-
-    if (diffY > 120) {
-        imageViewer.classList.remove("active");
-    } else {
-        viewerImg.style.transform = "translateY(0) scale(1)";
-    }
-
-    isSwiping = false;
-    startY = 0;
-    currentY = 0;
-});
-
-
-/*Slider contact form*/
+   SLIDER (ARROWS + AUTO)
+   Contact cards auto-slide every 3s in loop + manual controls.
+========================= */
 const track = document.getElementById("sliderTrack");
+const AUTO_SLIDE_DELAY = 3000;
+let autoInterval = null;
+let scrollSyncTimeout = null;
+let normalizeTimeout = null;
+let loopWidth = 0;
+let slideStep = 0;
+let baseCardCount = 0;
+
+function setupSliderLoop() {
+    if (!track) return;
+
+    // Duplicate original cards once for seamless infinite looping.
+    const originalCards = Array.from(track.querySelectorAll(".slider-card"));
+    if (!originalCards.length) return;
+
+    if (!track.dataset.loopReady) {
+        const fragment = document.createDocumentFragment();
+        originalCards.forEach((card) => {
+            const clone = card.cloneNode(true);
+            clone.setAttribute("aria-hidden", "true");
+            fragment.appendChild(clone);
+            add3DTilt(clone, { maxTilt: 4, scale: 1.006, lift: 6 });
+        });
+        track.appendChild(fragment);
+        track.dataset.loopReady = "true";
+    }
+
+    const allCards = Array.from(track.querySelectorAll(".slider-card"));
+    baseCardCount = Math.floor(allCards.length / 2);
+    if (!baseCardCount) return;
+
+    const firstCard = allCards[0];
+    const secondCard = allCards[1] || allCards[0];
+    slideStep = Math.max(1, secondCard.offsetLeft - firstCard.offsetLeft || firstCard.offsetWidth);
+    loopWidth = allCards[baseCardCount].offsetLeft - firstCard.offsetLeft;
+
+    if (loopWidth <= 0) {
+        loopWidth = slideStep * baseCardCount;
+    }
+
+    normalizeLoopPosition(true);
+}
+
+function normalizeLoopPosition(force = false) {
+    if (!track || !loopWidth) return;
+
+    if (force) {
+        while (track.scrollLeft >= loopWidth) {
+            track.scrollLeft -= loopWidth;
+        }
+        while (track.scrollLeft < 0) {
+            track.scrollLeft += loopWidth;
+        }
+        return;
+    }
+
+    if (track.scrollLeft >= loopWidth) {
+        track.scrollLeft -= loopWidth;
+    } else if (track.scrollLeft < 0) {
+        track.scrollLeft += loopWidth;
+    }
+}
+
+function moveSlider(direction = 1, smooth = true) {
+    if (!track || !slideStep) return;
+
+    if (direction < 0 && track.scrollLeft <= 2 && loopWidth) {
+        track.scrollLeft += loopWidth;
+    }
+
+    track.scrollBy({
+        left: direction * slideStep,
+        behavior: smooth ? "smooth" : "auto"
+    });
+
+    clearTimeout(normalizeTimeout);
+    normalizeTimeout = setTimeout(() => normalizeLoopPosition(), smooth ? 420 : 20);
+}
+
+function stopAutoSlide() {
+    if (autoInterval) {
+        clearInterval(autoInterval);
+        autoInterval = null;
+    }
+}
+
+function startAutoSlide() {
+    if (!track || baseCardCount <= 1) return;
+
+    stopAutoSlide();
+    autoInterval = setInterval(() => {
+        moveSlider(1, true);
+    }, AUTO_SLIDE_DELAY);
+}
+
+function restartAutoSlide() {
+    normalizeLoopPosition(true);
+    startAutoSlide();
+}
 
 function scrollLeftBtn() {
-    track.scrollBy({ left: -300, behavior: "smooth" });
+    if (!track || !slideStep) return;
+    stopAutoSlide();
+    moveSlider(-1, true);
+    startAutoSlide();
 }
 
 function scrollRightBtn() {
-    track.scrollBy({ left: 300, behavior: "smooth" });
+    if (!track || !slideStep) return;
+    stopAutoSlide();
+    moveSlider(1, true);
+    startAutoSlide();
 }
 
-/* AUTO SCROLL */
-setInterval(() => {
-    track.scrollBy({ left: 300, behavior: "smooth" });
-}, 4000);
+if (track) {
+    // Initialize loop + autoplay and keep loop consistent on interaction/resize.
+    setupSliderLoop();
+    startAutoSlide();
 
-let index = 0;
+    track.addEventListener("mouseenter", stopAutoSlide);
+    track.addEventListener("mouseleave", restartAutoSlide);
+    track.addEventListener("touchstart", stopAutoSlide, { passive: true });
+    track.addEventListener("touchend", restartAutoSlide, { passive: true });
 
-function autoSlide() {
-    const cards = document.querySelectorAll(".slider-card");
+    track.addEventListener("scroll", () => {
+        clearTimeout(scrollSyncTimeout);
+        scrollSyncTimeout = setTimeout(() => normalizeLoopPosition(), 120);
+    }, { passive: true });
 
-    if (!cards.length) return;
-
-    index++;
-
-    if (index >= cards.length) {
-        index = 0;
-    }
-
-    track.scrollTo({
-        left: cards[index].offsetLeft - 20,
-        behavior: "smooth"
+    window.addEventListener("resize", () => {
+        setupSliderLoop();
+        restartAutoSlide();
     });
 }
 
-setInterval(autoSlide, 3000);
