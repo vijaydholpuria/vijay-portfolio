@@ -330,4 +330,3 @@ if (track) {
         restartAutoSlide();
     });
 }
-
