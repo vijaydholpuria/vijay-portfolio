@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vijay Portfolio — Admin Panel</title>
+  <style>
+* { box-sizing: border-box; }
+    body { font-family: 'Poppins', Arial, sans-serif; background: #0f172a; color: #f8fafc; margin: 0; padding: 24px; }
+    .card { max-width: 820px; margin: 24px auto; background: #1e293b; padding: 28px; border-radius: 14px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+    h2, h3 { margin-top: 0; color: #38bdf8; }
+    label { display: block; margin-top: 14px; font-size: 13px; color: #cbd5e1; font-weight: 600; }
+    input, textarea { width: 100%; margin-top: 6px; padding: 10px 12px; border-radius: 8px; border: 1px solid #334155; background: #0f172a; color: #fff; font-family: inherit; }
+    textarea { min-height: 90px; resize: vertical; }
+    button { background: #3b82f6; color: #fff; border: none; padding: 11px 18px; border-radius: 8px; font-weight: 600; cursor: pointer; margin-top: 16px; }
+    button:hover { background: #2563eb; }
+    .btn-danger { background: #ef4444; padding: 6px 12px; font-size: 12px; margin-top: 8px; }
+    .btn-danger:hover { background: #dc2626; }
+    .btn-secondary { background: #10b981; }
+    .btn-secondary:hover { background: #059669; }
+    .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+    .project-item, .doc-item { background: #0f172a; border: 1px solid #334155; padding: 16px; border-radius: 10px; margin-top: 12px; }
+    .upload-row { display: flex; gap: 10px; align-items: center; margin-top: 8px; }
+    .upload-row input[type="file"] { margin-top: 0; padding: 7px; flex: 1; }
+    .upload-row button { margin-top: 0; white-space: nowrap; }
+    .doc-status { font-size: 12px; margin-top: 6px; color: #38bdf8; }
+    .hidden { display: none; }
+    #status { margin-top: 14px; font-size: 14px; font-weight: 600; }
+    hr { border: none; border-top: 1px solid #334155; margin: 24px 0; }
+  </style>
+</head>
+<body>
+
+  <!-- Login Box -->
+  <div id="login-box" class="card" style="max-width: 420px;">
+    <h2>Admin Login</h2>
+    <label>Email</label>
+    <input type="email" id="email" placeholder="Admin Email" required />
+    <label>Password</label>
+    <input type="password" id="password" placeholder="Password" required />
+    <button style="width:100%;" onclick="login()">Login</button>
+    <p id="login-error" style="color:#f87171;"></p>
+  </div>
+
+  <!-- Dashboard Box -->
+  <div id="dashboard-box" class="card hidden">
+    <div class="top-bar">
+      <h2>Portfolio Admin Panel</h2>
+      <div>
+        <a href="index.html" target="_blank" style="color:#38bdf8; margin-right:16px; text-decoration:none;">View Live Site ↗</a>
+        <button class="btn-danger" style="margin:0;" onclick="logout()">Logout</button>
+      </div>
+    </div>
+
+    <h3>Hero Section</h3>
+    <label>Kicker (Role Tag)</label>
+    <input type="text" id="heroKicker" />
+    <label>Main Heading</label>
+    <input type="text" id="heroTitle" />
+    <label>Hero Description</label>
+    <textarea id="heroText"></textarea>
+
+    <hr />
+    <h3>Profile Card & About</h3>
+    <label>Full Name</label>
+    <input type="text" id="profileName" />
+    <label>Profile Subtitle / Role</label>
+    <input type="text" id="profileRole" />
+    <label>Short Bio (Profile Card)</label>
+    <textarea id="profileBio"></textarea>
+    <label>About Section Text</label>
+    <textarea id="aboutText"></textarea>
+
+    <hr />
+    <h3>Documents (PDF Upload)</h3>
+
+    <div class="doc-item">
+      <label style="margin-top:0;">Resume PDF</label>
+      <input type="text" id="resumeUrl" placeholder="./resume.pdf" />
+      <div class="upload-row">
+        <input type="file" id="resumeFile" accept="application/pdf" />
+        <button class="btn-secondary" onclick="uploadPdf('resumeFile', 'resume.pdf', 'resumeUrl', 'resumeStatus')">Upload Resume</button>
+      </div>
+      <div id="resumeStatus" class="doc-status"></div>
+    </div>
+
+    <div class="doc-item">
+      <label style="margin-top:0;">CV PDF</label>
+      <input type="text" id="cvUrl" placeholder="./cv.pdf" />
+      <div class="upload-row">
+        <input type="file" id="cvFile" accept="application/pdf" />
+        <button class="btn-secondary" onclick="uploadPdf('cvFile', 'cv.pdf', 'cvUrl', 'cvStatus')">Upload CV</button>
+      </div>
+      <div id="cvStatus" class="doc-status"></div>
+    </div>
+
+    <div class="doc-item">
+      <label style="margin-top:0;">Semester Marks PDF</label>
+      <input type="text" id="semesterMarksUrl" placeholder="./SemesterMarks.pdf" />
+      <div class="upload-row">
+        <input type="file" id="marksFile" accept="application/pdf" />
+        <button class="btn-secondary" onclick="uploadPdf('marksFile', 'SemesterMarks.pdf', 'semesterMarksUrl', 'marksStatus')">Upload Marks</button>
+      </div>
+      <div id="marksStatus" class="doc-status"></div>
+    </div>
+
+    <hr />
+    <h3>Skills</h3>
+    <label>Skills (comma-separated)</label>
+    <input type="text" id="skills" placeholder="Java, Python, C++, HTML, CSS, JavaScript, MySQL" />
+
+    <hr />
+    <div class="top-bar" style="margin-bottom:0;">
+      <h3 style="margin:0;">Projects</h3>
+      <button class="btn-secondary" style="margin:0;" onclick="addProject()">+ Add Project</button>
+    </div>
+    <div id="projects-container"></div>
+
+    <hr />
+    <button style="width:100%; font-size:16px;" onclick="saveContent()">Save All Changes</button>
+    <p id="status"></p>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
+  <script>
+    const defaultData = {
+      heroKicker: "Java & Web Developer",
+      heroTitle: "Building Modern & Interactive Web Experiences",
+      heroText: "I design and build clean, responsive and animated digital products with a strong focus on performance, usability and polished UI.",
+      profileName: "Vijay Kumar Dholpuria",
+      profileRole: "Java & Web Developer",
+      profileBio: "Building modern websites, currently pursuing a B.Tech in Electrical and Computer Engineering.",
+      aboutText: "I am a Computer Engineering student passionate about building interactive, animated and scalable web applications using Java and modern frontend technologies.",
+      resumeUrl: "./resume.pdf",
+      cvUrl: "./cv.pdf",
+      semesterMarksUrl: "./SemesterMarks.pdf",
+      skills: ["Java", "Python", "C++", "HTML", "CSS", "JavaScript", "MySQL"],
+      projects: [
+        {
+          title: "V Doc",
+          description: "A full-stack document management and file-sharing platform that allows administrators to securely upload, organize, preview, and manage files while providing users with a fast and responsive file library. Cloudinary-based file storage, Supabase database integration.",
+          codeUrl: "https://github.com/vijaydholpuria/Vdocuments",
+          liveUrl: "https://vdoc-beta.vercel.app"
+        },
+        {
+          title: "TECHQUIZ — Real-Time Quiz Competition Platform",
+          description: "A full-stack real-time quiz competition platform designed to conduct interactive online quizzes with multiple participants simultaneously.",
+          codeUrl: "https://github.com/vijaydholpuria/TECHQUIZ",
+          liveUrl: "https://techquiz-plum.vercel.app"
+        },
+        {
+          title: "Event Registration System",
+          description: "Full-stack web application for managing event registrations.",
+          codeUrl: "https://github.com/vijaydholpuria/Event-Registration",
+          liveUrl: "https://eventregister-ten.vercel.app"
+        },
+        {
+          title: "Resume Analyzer Pro",
+          description: "AI-powered resume analysis and feedback web application. Built with Java Spring Boot, React, and integrated with OpenAI's GPT-3.5 for intelligent resume insights.",
+          codeUrl: "https://github.com/vijaydholpuria/Resume-Analyzer-Pro",
+          liveUrl: "https://resume-analyzer-pro-kvm3.onrender.com/index.html"
+        },
+        {
+          title: "Portfolio Website",
+          description: "Modern animated portfolio using HTML, CSS and JavaScript.",
+          codeUrl: "https://github.com/vijaydholpuria/vijay-portfolio",
+          liveUrl: "https://vijaydholpuria.github.io/vijay-portfolio/"
+        }
+      ]
+    };
+
+    let currentProjects = [];
+
+    async function checkSession() {
+      const { data: { session } } = await supabaseClient.auth.getSession();
+      document.getElementById("login-box").classList.toggle("hidden", !!session);
+      document.getElementById("dashboard-box").classList.toggle("hidden", !session);
+      if (session) loadContent();
+    }
+
+    async function login() {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      const { error } = await supabaseClient.auth.signInWithPassword({ email, password });
+      document.getElementById("login-error").innerText = error ? error.message : "";
+      if (!error) checkSession();
+    }
+
+    async function logout() {
+      await supabaseClient.auth.signOut();
+      checkSession();
+    }
+
+    async function uploadPdf(fileInputId, storageFileName, urlInputId, statusId) {
+      const fileInput = document.getElementById(fileInputId);
+      const statusEl = document.getElementById(statusId);
+      const file = fileInput.files[0];
+
+      if (!file) {
+        statusEl.style.color = "#f87171";
+        statusEl.innerText = "Please select a PDF file first.";
+        return;
+      }
+
+      if (file.type !== "application/pdf") {
+        statusEl.style.color = "#f87171";
+        statusEl.innerText = "Only PDF files can be uploaded.";
+        return;
+      }
+
+      statusEl.style.color = "#38bdf8";
+      statusEl.innerText = "Uploading...";
+
+      const { error } = await supabaseClient.storage
+        .from("portfolio-files")
+        .upload(storageFileName, file, {
+          upsert: true,
+          contentType: "application/pdf"
+        });
+
+      if (error) {
+        statusEl.style.color = "#f87171";
+        statusEl.innerText = "Upload error: " + error.message;
+        return;
+      }
+
+      const { data } = supabaseClient.storage
+        .from("portfolio-files")
+        .getPublicUrl(storageFileName);
+
+      // Append ?v= timestamp so the browser does not serve a cached PDF
+      document.getElementById(urlInputId).value = `${data.publicUrl}?v=${Date.now()}`;
+      statusEl.style.color = "#4ade80";
+      statusEl.innerText = "Uploaded! Now click 'Save All Changes' below.";
+    }
+
+    async function loadContent() {
+      const { data } = await supabaseClient
+        .from("portfolio_content")
+        .select("content")
+        .eq("id", "main")
+        .maybeSingle();
+
+      const c = (data && data.content && Object.keys(data.content).length > 0) ? data.content : defaultData;
+
+      document.getElementById("heroKicker").value = c.heroKicker || "";
+      document.getElementById("heroTitle").value = c.heroTitle || "";
+      document.getElementById("heroText").value = c.heroText || "";
+      document.getElementById("profileName").value = c.profileName || "";
+      document.getElementById("profileRole").value = c.profileRole || "";
+      document.getElementById("profileBio").value = c.profileBio || "";
+      document.getElementById("aboutText").value = c.aboutText || "";
+      document.getElementById("resumeUrl").value = c.resumeUrl || "./resume.pdf";
+      document.getElementById("cvUrl").value = c.cvUrl || "./cv.pdf";
+      document.getElementById("semesterMarksUrl").value = c.semesterMarksUrl || "./SemesterMarks.pdf";
+      document.getElementById("skills").value = (c.skills || []).join(", ");
+
+      currentProjects = Array.isArray(c.projects) ? c.projects : [];
+      renderProjects();
+    }
+
+    function renderProjects() {
+      const container = document.getElementById("projects-container");
+      container.innerHTML = currentProjects.map((p, index) => `
+        <div class="project-item">
+          <label>Project Title</label>
+          <input type="text" value="${escapeAttr(p.title)}" oninput="currentProjects[${index}].title = this.value" />
+          <label>Description</label>
+          <textarea oninput="currentProjects[${index}].description = this.value">${escapeHtml(p.description)}</textarea>
+          <label>GitHub Code URL</label>
+          <input type="text" value="${escapeAttr(p.codeUrl)}" oninput="currentProjects[${index}].codeUrl = this.value" />
+          <label>Live Demo URL</label>
+          <input type="text" value="${escapeAttr(p.liveUrl)}" oninput="currentProjects[${index}].liveUrl = this.value" />
+          <button class="btn-danger" onclick="removeProject(${index})">Delete Project</button>
+        </div>
+      `).join("");
+    }
+
+    function addProject() {
+      currentProjects.unshift({ title: "", description: "", codeUrl: "", liveUrl: "" });
+      renderProjects();
+    }
+
+    function removeProject(index) {
+      currentProjects.splice(index, 1);
+      renderProjects();
+    }
+
+    async function saveContent() {
+      const status = document.getElementById("status");
+      status.style.color = "#38bdf8";
+      status.innerText = "Saving...";
+
+      const content = {
+        heroKicker: document.getElementById("heroKicker").value,
+        heroTitle: document.getElementById("heroTitle").value,
+        heroText: document.getElementById("heroText").value,
+        profileName: document.getElementById("profileName").value,
+        profileRole: document.getElementById("profileRole").value,
+        profileBio: document.getElementById("profileBio").value,
+        aboutText: document.getElementById("aboutText").value,
+        resumeUrl: document.getElementById("resumeUrl").value.trim(),
+        cvUrl: document.getElementById("cvUrl").value.trim(),
+        semesterMarksUrl: document.getElementById("semesterMarksUrl").value.trim(),
+        skills: document.getElementById("skills").value.split(",").map(s => s.trim()).filter(Boolean),
+        projects: currentProjects.filter(p => p.title.trim() !== "")
+      };
+
+      const { error } = await supabaseClient
+        .from("portfolio_content")
+        .upsert({ id: "main", content, updated_at: new Date().toISOString() });
+
+      if (error) {
+        status.style.color = "#f87171";
+        status.innerText = "Error: " + error.message;
+      } else {
+        status.style.color = "#4ade80";
+        status.innerText = "Saved! Refresh your portfolio to see live changes.";
+      }
+    }
+
+    function escapeHtml(str = "") {
+      return String(str).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    }
+    function escapeAttr(str = "") {
+      return escapeHtml(str).replace(/"/g, "&quot;");
+    }
+
+    checkSession();
+  </script>
+</body>
+</html>
